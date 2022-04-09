@@ -287,3 +287,275 @@ const lastNames = [
 ];
 // console.log(sortAescending(firstNames));
 // console.log(sortDescending(lastNames));
+
+// 12th
+// Merge Sort
+// TC - O(n log n)
+const sort = (randomNumbers) => {
+  return mergeSort(randomNumbers, 0, randomNumbers.length - 1);
+};
+
+const mergeSort = (numbers, first, last) => {
+  if (first < last) {
+    let mid = parseInt((first + last) / 2);
+    mergeSort(numbers, first, mid);
+    mergeSort(numbers, mid + 1, last);
+
+    merge(numbers, first, mid, last);
+  }
+
+  return numbers;
+};
+
+const merge = (numbers, i, m, j) => {
+  let l = i; //inital index of first subarray
+  let r = m + 1; // initial index of second subarray
+  let k = 0; // initial index of merged array
+  let t = new Array(numbers.length);
+
+  while (l <= m && r <= j) {
+    if (numbers[l] <= numbers[r]) {
+      t[k] = numbers[l];
+      k++;
+      l++;
+    } else {
+      t[k] = numbers[r];
+      k++;
+      r++;
+    }
+  }
+
+  // Copy the remaining elements on left half , if there are any
+  while (l <= m) {
+    t[k] = numbers[l];
+    k++;
+    l++;
+  }
+
+  // Copy the remaining elements on right half , if there are any
+  while (r <= j) {
+    t[k] = numbers[r];
+    k++;
+    r++;
+  }
+
+  // Copy the remaining elements from array t back the numbers array
+  l = i;
+  k = 0;
+  while (l <= j) {
+    numbers[l] = t[k];
+    l++;
+    k++;
+  }
+
+  return numbers;
+};
+// console.log(sort([13, 3242, 23, 2351, 352, 3915, 123, 32, 67, 5, 9]));
+
+// 13th
+const sortForDecreasingOrder = (randomNumbers) => {
+  return mergeSortForDecreasingOrder(
+    randomNumbers,
+    0,
+    randomNumbers.length - 1
+  );
+};
+
+const mergeSortForDecreasingOrder = (numbers, first, last) => {
+  if (first < last) {
+    let mid = parseInt((first + last) / 2);
+    mergeSortForDecreasingOrder(numbers, first, mid);
+    mergeSortForDecreasingOrder(numbers, mid + 1, last);
+
+    mergeForDecreasingOrder(numbers, first, mid, last);
+  }
+
+  return numbers;
+};
+
+const mergeForDecreasingOrder = (numbers, i, m, j) => {
+  let l = i; //inital index of first subarray
+  let r = m + 1; // initial index of second subarray
+  let k = 0; // initial index of merged array
+  let t = new Array(numbers.length);
+
+  while (l <= m && r <= j) {
+    if (numbers[l] >= numbers[r]) {
+      t[k] = numbers[l];
+      k++;
+      l++;
+    } else {
+      t[k] = numbers[r];
+      k++;
+      r++;
+    }
+  }
+
+  // Copy the remaining elements on left half , if there are any
+  while (l <= m) {
+    t[k] = numbers[l];
+    k++;
+    l++;
+  }
+
+  // Copy the remaining elements on right half , if there are any
+  while (r <= j) {
+    t[k] = numbers[r];
+    k++;
+    r++;
+  }
+
+  // Copy the remaining elements from array t back the numbers array
+  l = i;
+  k = 0;
+  while (l <= j) {
+    numbers[l] = t[k];
+    l++;
+    k++;
+  }
+
+  return numbers;
+};
+// console.log(sortForDecreasingOrder([9, 45, 76, 23, 47, 1, 5, 11]));
+
+// 14th
+// Quick Sort
+// TC - O(n log n) Worst Case - O(n*2)
+const quickSort = (ar, start, end) => {
+  if (start < end) {
+    let p = partition(ar, start, end);
+    quickSort(ar, 0, p - 1);
+    quickSort(ar, p + 1, end);
+  }
+
+  return ar;
+};
+
+const partition = (ar, start, end) => {
+  let pivot = ar[end];
+  let i = start;
+  for (let j = start; j < end; j++) {
+    if (ar[j] <= pivot) {
+      let temp1 = ar[j];
+      ar[j] = ar[i];
+      ar[i] = temp1;
+      i++;
+    }
+  }
+  let temp2 = ar[i];
+  ar[i] = ar[end];
+  ar[end] = temp2;
+
+  return i;
+};
+// const ar = [10, 7, 8, 9, 1, 5];
+// console.log(quickSort(ar, 0, ar.length - 1));
+
+// 15th
+/**
+ * Write a program in Java that takes an array of strings as input and returns the
+ * sorted array. Assume that the sorting needs to be done based on the size of each
+ * string. So, a string with fewer characters should come before another string with
+ * more number of characters. Use the quicksort algorithm for the program.
+ */
+const quickSortForStr = (array, left, right) => {
+  if (left < right) {
+    let position = partitionForStr(array, left, right);
+    quickSortForStr(array, left, position - 1);
+    quickSortForStr(array, position + 1, right);
+  }
+
+  return array;
+};
+
+const partitionForStr = (array, left, right) => {
+  let x = array[right];
+  let i = left - 1;
+  for (let j = left; j <= right - 1; j++) {
+    if (array[j].length <= x.length) {
+      i++;
+      let tmp = array[i];
+      array[i] = array[j];
+      array[j] = tmp;
+    }
+  }
+  // swap
+  let swap = array[i + 1];
+  array[i + 1] = array[right];
+  array[right] = swap;
+  return i + 1;
+};
+// const srtArr = [
+//   'Christene',
+//   'Tomas',
+//   'Marline',
+//   'Marcelluss',
+//   'Michelle',
+//   'Quiana',
+//   'Keny',
+// ];
+// console.log(quickSortForStr(srtArr, 0, srtArr.length - 1));
+
+// 16th
+/**
+ * Write a program in Java that sorts a given array in descending order using quicksort
+ */
+const sortForDescending = (numbers) => {
+  // let's sort numbers using quicksort
+  quickSortForDescending(numbers, 0, numbers.length - 1);
+  return numbers;
+};
+
+const quickSortForDescending = (numbers, first, last) => {
+  if (first < last) {
+    // select a pivot point
+    let pivotIndex = Math.floor(Math.random() * (last - first + 1) + first);
+    let pivot = numbers[pivotIndex];
+    let k = partitionForDescending(numbers, first, last, pivot);
+
+    // recursively sort the elements to the left of the pivot
+    quickSortForDescending(numbers, first, k);
+    // recursively sort the elements to the right of the pivot
+    quickSortForDescending(numbers, k + 1, last);
+  }
+};
+
+const partitionForDescending = (numbers, first, last, pivot) => {
+  let l = first;
+  let r = last;
+
+  while (l <= r) {
+    // In each iteration, we will identify a number
+    // from left side which is greater than the pivot
+    // value, and also we will identify a number from
+    // right side which is less than the pivot value.
+    // Once the search is done, then we exchange both numbers.
+
+    while (l <= r && numbers[l] >= pivot) {
+      l++;
+    }
+
+    while (l <= r && numbers[r] < pivot) {
+      r--;
+    }
+
+    if (l <= r) {
+      exchangeNumbers(numbers, l, r);
+      //move index to next position on both sides
+      l++;
+      r--;
+    }
+  }
+
+  return l - 1;
+};
+
+const exchangeNumbers = (numbers, i, j) => {
+  let temp = numbers[i];
+  numbers[i] = numbers[j];
+  numbers[j] = temp;
+
+  // exchange numbers using XOR, which doesn't require a temp variable
+};
+// const arr = [2, 4, 6, 8, 10, 12, 1, 16, 18, 20];
+// console.log(sortForDescending(arr));
